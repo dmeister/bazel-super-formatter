@@ -84,7 +84,6 @@ sh_binary(
     srcs = ["format.sh"],
     data = [
         ":buildifier",
-        ":prettier",
         # We can't make this optional, because it's an eager fetch as soon as this
         # label appears anywhere in this file.
         "@go_sdk//:bin/gofmt",
@@ -106,6 +105,11 @@ sh_binary(
     ) + select(
         {
             ":format_proto": [":buf"],
+            "//conditions:default": [],
+        },
+    ) + select(
+        {
+            ":format_prettier": [":prettier"],
             "//conditions:default": [],
         },
     ),
